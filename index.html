@@ -3,127 +3,453 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Folium - Gestione Carriera Universitaria</title>
+    <title>Folium - La Tua Carriera Universitaria, Sotto Controllo</title>
+    <meta name="description" content="Scegli tra media ponderata o aritmetica. Visualizza la corona degli esami, la base del voto di laurea e simula ogni scenario. 100% offline e senza pubblicità.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- AOS Animations -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Sticker Forge Component -->
+    <script type="module" src="https://sticker.oooo.so/embed/sticker-forge.es.js"></script>
+
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Outfit', 'sans-serif'],
+                    },
                     colors: {
-                        brand: { deep: '#0d0415', violet: '#2d144d', accent: '#4ade80' }
+                        brand: {
+                            dark: '#05010d',
+                            base: '#0d0415',
+                            violet: '#3b1c6a',
+                            accent: '#10b981',
+                            accentHover: '#34d399',
+                            glow: 'rgba(16, 185, 129, 0.4)'
+                        }
+                    },
+                    animation: {
+                        'blob': 'blob 7s infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        }
                     }
                 }
             }
         }
     </script>
     <style>
-        body { background-color: #0d0415; color: #fff; -webkit-font-smoothing: antialiased; font-family: sans-serif; }
-        .hero-gradient { background: radial-gradient(circle at 50% -20%, #2d144d 0%, #0d0415 85%); }
-        .iphone-mockup { border: 10px solid #1f1f1f; border-radius: 44px; box-shadow: 0 40px 80px rgba(0,0,0,0.6); background: #000; overflow: hidden; }
-        .badge { height: 40px; }
+        body { 
+            background-color: #05010d; 
+            color: #ffffff; 
+            -webkit-font-smoothing: antialiased; 
+            overflow-x: hidden;
+        }
+        
+        .glass-nav {
+            background: rgba(13, 4, 21, 0.6);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 24px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .hero-gradient { 
+            background: radial-gradient(circle at 50% 0%, #3b1c6a 0%, #05010d 60%); 
+        }
+
+        .text-gradient {
+            background: linear-gradient(135deg, #ffffff 0%, #a78bfa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .accent-gradient {
+            background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .iphone-mockup { 
+            border: 8px solid #1f1f1f; 
+            border-radius: 44px; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.1) inset; 
+            background: #000; 
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .iphone-mockup::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 25px;
+            background: #1f1f1f;
+            border-bottom-left-radius: 16px;
+            border-bottom-right-radius: 16px;
+            z-index: 10;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .badge-app {
+            height: 48px;
+            transition: transform 0.3s ease;
+        }
+        
+        .badge-app:hover {
+            transform: scale(1.05) translateY(-2px);
+        }
+        
+        /* Custom Sticker Container */
+        .sticker-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            position: relative;
+        }
+        
+        .sticker-glow {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(16,185,129,0.2) 0%, rgba(0,0,0,0) 70%);
+            z-index: 0;
+        }
     </style>
 </head>
-<body class="overflow-x-hidden">
+<body>
 
-    <nav class="fixed top-0 w-full z-50 bg-[#0d0415]/80 backdrop-blur-md border-b border-white/5">
+    <!-- Background decorative blobs -->
+    <div class="fixed top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
+        <div class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-brand-violet/20 blur-[100px] mix-blend-screen animate-blob"></div>
+        <div class="absolute top-[20%] right-[-10%] w-[30%] h-[30%] rounded-full bg-brand-accent/10 blur-[100px] mix-blend-screen animate-blob animation-delay-2000"></div>
+        <div class="absolute bottom-[-10%] left-[20%] w-[40%] h-[40%] rounded-full bg-purple-900/20 blur-[120px] mix-blend-screen animate-blob animation-delay-4000"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 glass-nav transition-all duration-300" id="navbar">
         <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <img src="logo.jpg" alt="Folium Logo" class="w-8 h-8 rounded-lg shadow-sm">
-                <span class="text-xl font-bold tracking-tight">Folium</span>
+            <div class="flex items-center gap-3 cursor-pointer">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-violet to-black flex items-center justify-center shadow-lg border border-white/10">
+                    <img src="logo.jpg" alt="Folium Logo" class="w-full h-full rounded-xl object-cover" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iIzEwYjk4MSI+PHBhdGggZD0iTTEyIDJMMiA3bDExIDUgOS00LjUtMS41Ljg2VjE3aC0ydi01LjE0TDEyIDE3bC05LTQuNXY1LjE0TDEyIDIybDktNC41di0xMkwxMiAyem0wIDEybC03LTMuNSAzLjUtMS43NSBMMTIgMTAuNWwzLjUgMS43NSBMMTIgMTR6Ii8+PC9zdmc+'">
+                </div>
+                <span class="text-2xl font-display font-bold tracking-tight text-white">Folium</span>
             </div>
-            <a href="#scarica" class="bg-white text-black px-5 py-2 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-brand-accent transition">Scarica</a>
+            <a href="#scarica" class="btn-primary text-white px-6 py-2.5 rounded-full text-sm font-semibold uppercase tracking-wide">
+                Scarica Ora
+            </a>
         </div>
     </nav>
 
-    <header class="relative pt-32 pb-16 hero-gradient">
-        <div class="max-w-5xl mx-auto px-6 text-center">
-            <div data-aos="fade-up">
-                <img src="logo.jpg" alt="Folium Logo" class="w-20 h-20 mx-auto rounded-2xl shadow-2xl mb-8 border border-white/10">
+    <!-- Hero Section -->
+    <header class="relative pt-40 pb-24 hero-gradient overflow-hidden">
+        <div class="max-w-6xl mx-auto px-6 text-center z-10 relative">
+            <div data-aos="fade-up" data-aos-duration="1000">
+                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card mb-8 text-sm font-medium text-brand-accent border-brand-accent/20">
+                    <span class="relative flex h-2 w-2">
+                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-accent opacity-75"></span>
+                      <span class="relative inline-flex rounded-full h-2 w-2 bg-brand-accent"></span>
+                    </span>
+                    Nuovo aggiornamento disponibile
+                </div>
                 
-                <h1 class="text-5xl md:text-7xl font-black tracking-tighter mb-6 leading-tight">
-                    La tua carriera.<br><span class="text-brand-accent">Sotto controllo.</span>
+                <h1 class="text-5xl md:text-7xl lg:text-8xl font-display font-black tracking-tighter mb-6 leading-[1.1]">
+                    La tua carriera.<br>
+                    <span class="accent-gradient">Sotto controllo.</span>
                 </h1>
-                <p class="text-lg md:text-xl text-purple-100/60 max-w-2xl mx-auto mb-10 font-medium">
-                    Scegli tra media ponderata o aritmetica. Visualizza la corona degli esami, la base del voto di laurea e simula ogni scenario. 100% offline e senza pubblicità.
+                
+                <p class="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto mb-10 font-light leading-relaxed">
+                    Scegli tra media ponderata o aritmetica. Visualizza la corona degli esami, calcola la base di laurea e simula ogni scenario. <span class="font-semibold text-white">100% offline e senza pubblicità.</span>
                 </p>
                 
-                <div class="flex flex-wrap justify-center gap-4 mb-20">
-                    <a href="https://apps.apple.com/it/app/folium-libretto-universitario/id6755937684"><img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/it-it" class="badge"></a>
-                    <a href="https://play.google.com/store/apps/details?id=com.michelegalbiati.folium"><img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" class="badge"></a>
+                <div class="flex flex-wrap justify-center gap-4 mb-16">
+                    <a href="https://apps.apple.com/it/app/folium-libretto-universitario/id6755937684" class="block">
+                        <img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/it-it" alt="Scarica su App Store" class="badge-app">
+                    </a>
+                    <a href="https://play.google.com/store/apps/details?id=com.michelegalbiati.folium" class="block">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" alt="Disponibile su Google Play" class="badge-app">
+                    </a>
                 </div>
             </div>
             
-            <div class="relative" data-aos="zoom-in-up">
-                <div class="iphone-mockup max-w-[280px] mx-auto">
-                    <img src="home.png" alt="Home App Folium" class="w-full">
+            <div class="relative mt-10" data-aos="fade-up" data-aos-delay="200" data-aos-duration="1200">
+                <div class="absolute inset-0 bg-brand-accent/20 blur-[100px] rounded-full w-3/4 h-3/4 mx-auto top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></div>
+                <div class="iphone-mockup max-w-[300px] mx-auto animate-float">
+                    <img src="home.png" alt="Home App Folium" class="w-full h-auto" onerror="this.src='https://placehold.co/300x650/1f1f1f/10b981?text=App+Home'">
                 </div>
             </div>
         </div>
     </header>
 
-    <section class="py-24 px-6 bg-[#0d0415]">
-        <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center">
+    <!-- Feature: Widget -->
+    <section class="py-32 px-6 relative">
+        <div class="max-w-6xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
+            <div data-aos="fade-right" class="order-2 lg:order-1">
+                <div class="w-12 h-12 rounded-xl bg-brand-violet/30 flex items-center justify-center mb-6 border border-brand-violet/50 text-2xl">
+                    ⚡
+                </div>
+                <h2 class="text-4xl md:text-5xl font-display font-bold mb-6 leading-tight">
+                    Il potere del <span class="accent-gradient">Widget</span>.
+                </h2>
+                <p class="text-xl text-gray-400 mb-8 leading-relaxed font-light">
+                    Accedi alle tue informazioni senza nemmeno aprire l'app. Visualizza gli esami passati, la tua media e i prossimi appelli direttamente sulla tua Home Screen con un design mozzafiato.
+                </p>
+                
+                <ul class="space-y-4 text-gray-300">
+                    <li class="flex items-center gap-3">
+                        <div class="w-6 h-6 rounded-full bg-brand-accent/20 flex items-center justify-center text-brand-accent text-sm">✓</div>
+                        Design minimalista e moderno
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <div class="w-6 h-6 rounded-full bg-brand-accent/20 flex items-center justify-center text-brand-accent text-sm">✓</div>
+                        Sincronizzazione immediata
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <div class="w-6 h-6 rounded-full bg-brand-accent/20 flex items-center justify-center text-brand-accent text-sm">✓</div>
+                        Supporto per Dark Mode
+                    </li>
+                </ul>
+            </div>
+            <div class="flex justify-center relative order-1 lg:order-2" data-aos="fade-left">
+                <div class="absolute inset-0 bg-brand-violet/30 blur-[80px] rounded-full w-2/3 h-2/3 mx-auto top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></div>
+                <div class="iphone-mockup max-w-[280px] z-10">
+                    <img src="widget_home.png" alt="Widget Folium" class="w-full h-auto" onerror="this.src='https://placehold.co/280x600/1f1f1f/8b5cf6?text=Widgets'">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Feature: Calendar -->
+    <section class="py-32 px-6 relative glass-card mx-4 md:mx-auto max-w-7xl my-10 border-white/5">
+        <div class="max-w-6xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
+            <div class="flex justify-center relative" data-aos="fade-right">
+                <div class="absolute inset-0 bg-blue-500/20 blur-[80px] rounded-full w-2/3 h-2/3 mx-auto top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></div>
+                <div class="iphone-mockup max-w-[280px] z-10">
+                    <img src="calendario.png" alt="Calendario Folium" class="w-full h-auto" onerror="this.src='https://placehold.co/280x600/1f1f1f/3b82f6?text=Calendario'">
+                </div>
+            </div>
+            <div data-aos="fade-left">
+                <div class="w-12 h-12 rounded-xl bg-blue-500/20 flex items-center justify-center mb-6 border border-blue-500/30 text-2xl">
+                    📅
+                </div>
+                <h2 class="text-4xl md:text-5xl font-display font-bold mb-6 leading-tight">
+                    Esami e <span class="text-gradient">Lezioni</span>.
+                </h2>
+                <p class="text-xl text-gray-400 mb-6 leading-relaxed font-light">
+                    Il calendario integrato ti dice esattamente <span class="text-white font-medium">quando, dove e a che ora</span> sono le lezioni del giorno e i tuoi appelli. 
+                </p>
+                <div class="glass-card p-6 border-white/10 mt-8">
+                    <p class="italic text-gray-300 font-light">
+                        "Organizzazione perfetta, zero stress. Tutto quello che ti serve per pianificare la tua settimana universitaria in un'unica schermata."
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Feature: Sticker & Rewards -->
+    <section class="py-32 px-6 relative">
+        <div class="max-w-6xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
             <div data-aos="fade-right">
-                <h2 class="text-4xl font-bold mb-6 italic text-brand-accent italic">Il Widget.</h2>
-                <p class="text-lg text-purple-100/60 mb-6 leading-relaxed">
-                    Accedi alle tue informazioni senza nemmeno aprire l'app. Visualizza gli esami passati e i prossimi appelli direttamente sulla tua Home Screen.
+                <div class="w-12 h-12 rounded-xl bg-brand-accent/20 flex items-center justify-center mb-6 border border-brand-accent/30 text-2xl">
+                    🎁
+                </div>
+                <h2 class="text-4xl md:text-5xl font-display font-bold mb-6 leading-tight">
+                    Vantaggi <span class="accent-gradient">Esclusivi</span>.
+                </h2>
+                <p class="text-xl text-gray-400 mb-8 leading-relaxed font-light">
+                    Folium ti premia. Accedi a offerte esclusive studiate apposta per gli studenti, sblocca traguardi e colleziona sticker unici.
                 </p>
+                
+                <!-- Interactive Sticker -->
+                <div class="mt-10 glass-card p-4 overflow-hidden border-white/10">
+                    <h3 class="text-sm font-semibold uppercase tracking-wider text-gray-400 mb-4 ml-2">Colleziona e interagisci</h3>
+                    <div class="sticker-container">
+                        <div class="sticker-glow"></div>
+                        <sticker-forge id="folium-sticker" style="display:block;width:100%;height:300px; max-width:400px; z-index:10;"></sticker-forge>
+                    </div>
+                </div>
             </div>
-            <div class="flex justify-center" data-aos="fade-left">
-                <div class="iphone-mockup max-w-[260px]">
-                    <img src="widget_home.png" alt="Widget Folium" class="w-full">
+            
+            <div class="flex justify-center relative" data-aos="fade-left">
+                <div class="absolute inset-0 bg-brand-accent/20 blur-[80px] rounded-full w-2/3 h-2/3 mx-auto top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></div>
+                <div class="iphone-mockup max-w-[280px] z-10 animate-float" style="animation-delay: 1s;">
+                    <img src="vantaggi.png" alt="Vantaggi Folium" class="w-full h-auto" onerror="this.src='https://placehold.co/280x600/1f1f1f/10b981?text=Vantaggi'">
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="py-24 px-6 bg-[#160a24] border-y border-white/5">
-        <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center">
-            <div class="flex justify-center order-2 md:order-1" data-aos="fade-right">
-                <div class="iphone-mockup max-w-[260px]">
-                    <img src="calendario.png" alt="Calendario Folium" class="w-full">
-                </div>
+    <!-- Call to Action Footer -->
+    <footer id="scarica" class="relative pt-32 pb-12 overflow-hidden border-t border-white/5">
+        <div class="absolute inset-0 bg-gradient-to-b from-transparent to-brand-violet/20 -z-10"></div>
+        
+        <div class="max-w-4xl mx-auto px-6 text-center" data-aos="zoom-in" data-aos-duration="800">
+            <div class="w-20 h-20 mx-auto rounded-2xl bg-gradient-to-br from-brand-violet to-black flex items-center justify-center shadow-2xl border border-white/10 mb-8">
+                <img src="logo.jpg" alt="Folium Logo" class="w-full h-full rounded-2xl object-cover" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iIzEwYjk4MSI+PHBhdGggZD0iTTEyIDJMMiA3bDExIDUgOS00LjUtMS41Ljg2VjE3aC0ydi01LjE0TDEyIDE3bC05LTQuNXY1LjE0TDEyIDIybDktNC41di0xMkwxMiAyem0wIDEybC03LTMuNSAzLjUtMS43NSBMMTIgMTAuNWwzLjUgMS43NSBMMTIgMTR6Ii8+PC9zdmc+'">
             </div>
-            <div class="order-1 md:order-2" data-aos="fade-left">
-                <h2 class="text-4xl font-bold mb-6 italic text-brand-accent">Esami e Lezioni.</h2>
-                <p class="text-lg text-purple-100/60 mb-6 leading-relaxed">
-                    Il calendario integrato ti dice esattamente <strong>quando, dove e a che ora</strong> sono le lezioni del giorno e i tuoi appelli. Organizzazione perfetta, zero stress.
-                </p>
+            
+            <h2 class="text-5xl font-display font-black mb-8 tracking-tight">Scarica Folium.</h2>
+            
+            <div class="flex flex-col sm:flex-row justify-center items-center gap-6 mb-16">
+                <a href="https://apps.apple.com/it/app/folium-libretto-universitario/id6755937684" class="block">
+                    <img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/it-it" alt="App Store" class="badge-app h-[54px]">
+                </a>
+                <a href="https://play.google.com/store/apps/details?id=com.michelegalbiati.folium" class="block">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" alt="Google Play" class="badge-app h-[54px]">
+                </a>
             </div>
-        </div>
-    </section>
-
-    <section class="py-24 px-6 bg-[#0d0415]">
-        <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center text-center md:text-left">
-            <div data-aos="fade-right">
-                <h2 class="text-4xl font-bold mb-6 italic text-brand-accent">Sezione Vantaggi.</h2>
-                <p class="text-lg text-purple-100/60">
-                    Folium ti premia. Accedi a offerte esclusive studiate apposta per gli studenti direttamente dall'app.
-                </p>
+            
+            <div class="flex flex-wrap justify-center gap-4 mb-12">
+                <span class="px-4 py-2 rounded-full glass-card text-xs font-medium text-gray-300">Senza pubblicità</span>
+                <span class="px-4 py-2 rounded-full glass-card text-xs font-medium text-gray-300">100% Offline</span>
+                <span class="px-4 py-2 rounded-full glass-card text-xs font-medium text-gray-300">Privacy Totale</span>
             </div>
-            <div class="flex justify-center" data-aos="fade-left">
-                <div class="iphone-mockup max-w-[260px]">
-                    <img src="vantaggi.png" alt="Vantaggi Folium" class="w-full">
-                </div>
+            
+            <div class="text-gray-500 text-sm flex flex-col md:flex-row items-center justify-center gap-4">
+                <p>&copy; 2026 Folium App.</p>
+                <span class="hidden md:inline">•</span>
+                <a href="https://doc-hosting.flycricket.io/folium-privacy-policy/04626f75-3a06-43cf-860b-03fb3c7b87b6/privacy" class="hover:text-brand-accent transition-colors underline decoration-gray-600 underline-offset-4">Privacy Policy</a>
             </div>
-        </div>
-    </section>
-
-    <footer id="scarica" class="py-20 bg-black text-center px-6 border-t border-white/5">
-        <img src="logo.jpg" alt="Folium Logo" class="w-12 h-12 mx-auto rounded-xl mb-6 opacity-50">
-        <h2 class="text-4xl font-black mb-10 tracking-tight">Scarica Folium.</h2>
-        <div class="flex flex-col sm:flex-row justify-center items-center gap-6 mb-12">
-            <a href="https://apps.apple.com/it/app/folium-libretto-universitario/id6755937684" class="hover:scale-105 transition"><img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/it-it" class="badge"></a>
-            <a href="https://play.google.com/store/apps/details?id=com.michelegalbiati.folium" class="hover:scale-105 transition"><img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" class="badge"></a>
-        </div>
-        <div class="text-gray-600 text-xs">
-            <p class="mb-2 italic">Senza pubblicità • 100% Offline • Privacy Totale</p>
-            <p>&copy; 2026 Folium App. <a href="https://doc-hosting.flycricket.io/folium-privacy-policy/04626f75-3a06-43cf-860b-03fb3c7b87b6/privacy" class="underline hover:text-white transition">Privacy Policy</a></p>
         </div>
     </footer>
 
+    <!-- Scripts -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script>AOS.init({ duration: 800, once: true });</script>
+    <script>
+        // Initialize AOS
+        AOS.init({ 
+            duration: 800, 
+            once: true,
+            offset: 50
+        });
+
+        // Navbar blur on scroll
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 20) {
+                nav.classList.add('shadow-lg');
+                nav.style.background = 'rgba(5, 1, 13, 0.8)';
+            } else {
+                nav.classList.remove('shadow-lg');
+                nav.style.background = 'rgba(13, 4, 21, 0.6)';
+            }
+        });
+    </script>
+    
+    <!-- Sticker Script -->
+    <script type="module">
+        await customElements.whenDefined("sticker-forge");
+        const sticker = document.querySelector("#folium-sticker");
+        
+        // Use the simplified config provided by the user
+        await sticker.setSource({
+            "type": "image",
+            // You can replace this with your base64 logo if preferred
+            "src": "logo.jpg", 
+            "name": "Folium Sticker"
+        });
+        
+        sticker.setOptions({
+            "outline": {
+                "width": 18,
+                "color": "#ffffff"
+            },
+            "edge": {
+                "width": 2.4,
+                "strength": 0.7
+            },
+            "shadow": {
+                "opacity": 0.22,
+                "blur": 22,
+                "distance": 16,
+                "angle": 42,
+                "color": "#191823"
+            },
+            "lighting": {
+                "direction": {
+                    "x": -0.38,
+                    "y": 0.52,
+                    "z": 0.76
+                },
+                "intensity": 0.8,
+                "ambient": 0.35,
+                "softness": 0.6
+            },
+            "peel": {
+                "radius": 0.12,
+                "stiffness": 0.72,
+                "grabWidth": 22,
+                "maxAngle": 3.55,
+                "release": "snap"
+            },
+            "sound": {
+                "enabled": true,
+                "volume": 0.68
+            },
+            "back": {
+                "color": "#f7f5f2",
+                "gloss": 0.7,
+                "roughness": 0.3
+            },
+            "material": {
+                "type": "original",
+                "intensity": 0.86,
+                "scale": 1,
+                "holographicGrain": 0.72,
+                "seed": 0.37,
+                "holographicColors": [
+                    "#10b981", /* Folium Green */
+                    "#3b1c6a", /* Folium Violet */
+                    "#9db4ea"
+                ]
+            },
+            "tilt": -3,
+            "wind": 0.25,
+            "quality": "high"
+        });
+    </script>
 </body>
 </html>
