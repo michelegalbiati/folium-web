@@ -72,6 +72,12 @@
             -webkit-font-smoothing: antialiased; 
         }
         
+        sticker-forge, sticker-forge:focus, sticker-forge:active, sticker-forge:focus-visible {
+            outline: none !important;
+            border: none !important;
+            box-shadow: none !important;
+        }
+        
         .glass-nav {
             background: rgba(13, 4, 21, 0.6);
             backdrop-filter: blur(16px);
@@ -488,6 +494,7 @@
         });
         
         sticker.setOptions({
+            "guides": false,
             "outline": {
                 "width": 18,
                 "color": "#ffffff"
