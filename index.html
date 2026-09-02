@@ -475,6 +475,7 @@
     </script>
     
     <!-- Sticker Script -->
+    <script src="assets/js/logo_base64.js"></script>
     <script type="module">
         await customElements.whenDefined("sticker-forge");
         const sticker = document.querySelector("#folium-sticker");
@@ -482,7 +483,7 @@
         // Use the simplified config provided by the user
         await sticker.setSource({
             "type": "image",
-            "src": "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/f4/f6/c5/f4f6c50d-6b38-20d7-736a-2c3eebeec876/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/400x400.png", 
+            "src": window.foliumLogoBase64, 
             "name": "Folium Sticker"
         });
         
