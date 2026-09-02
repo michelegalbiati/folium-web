@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Folium - La Tua Carriera Universitaria, Sotto Controllo</title>
     <meta name="description" content="Scegli tra media ponderata o aritmetica. Visualizza la corona degli esami, la base del voto di laurea e simula ogni scenario. 100% offline.">
+    <link rel="icon" type="image/png" href="https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/f4/f6/c5/f4f6c50d-6b38-20d7-736a-2c3eebeec876/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/400x400.png">
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -60,11 +61,15 @@
         }
     </script>
     <style>
+        html, body {
+            overflow-x: hidden;
+            width: 100%;
+            position: relative;
+        }
         body { 
             background-color: #05010d; 
             color: #ffffff; 
             -webkit-font-smoothing: antialiased; 
-            overflow-x: hidden;
         }
         
         .glass-nav {
@@ -307,8 +312,36 @@
         </div>
     </section>
 
+    <!-- Feature: Timer -->
+    <section class="py-32 px-6 relative glass-card mx-4 md:mx-auto max-w-7xl my-10 border-white/5">
+        <div class="max-w-6xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
+            <div class="flex justify-center relative" data-aos="fade-right">
+                <div class="absolute inset-0 bg-brand-accent/20 blur-[80px] rounded-full w-2/3 h-2/3 mx-auto top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></div>
+                <div class="iphone-mockup max-w-[280px] z-10">
+                    <img src="https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/65/f7/93/65f793e1-88a0-ac45-c82b-269c26231da9/01.png/600x1300bb.webp" alt="Timer Folium" class="w-full h-auto" onerror="this.src='https://placehold.co/280x600/1f1f1f/10b981?text=Timer'">
+                </div>
+            </div>
+            <div data-aos="fade-left">
+                <div class="w-12 h-12 rounded-xl bg-brand-accent/20 flex items-center justify-center mb-6 border border-brand-accent/30 text-2xl">
+                    ⏱️
+                </div>
+                <h2 class="text-4xl md:text-5xl font-display font-bold mb-6 leading-tight">
+                    Timer <span class="accent-gradient">Concentrazione</span>.
+                </h2>
+                <p class="text-xl text-gray-400 mb-6 leading-relaxed font-light">
+                    Massimizza il tuo focus per ogni esame. Gestisci le tue sessioni di studio e le pause con un timer completamente personalizzabile.
+                </p>
+                <div class="glass-card p-6 border-white/10 mt-8">
+                    <p class="italic text-gray-300 font-light">
+                        "Studia, accumula ore e fai scalare la classifica nazionale al tuo Ateneo. Più studi, più vinci!"
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Feature: Calendar -->
-    <section class="py-32 px-6 relative">
+    <section class="py-32 px-6 relative glass-card mx-4 md:mx-auto max-w-7xl my-10 border-white/5">
         <div class="max-w-6xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
             <div data-aos="fade-right" class="order-2 lg:order-1">
                 <div class="w-12 h-12 rounded-xl bg-blue-500/20 flex items-center justify-center mb-6 border border-blue-500/30 text-2xl">
@@ -329,7 +362,7 @@
             <div class="flex justify-center relative order-1 lg:order-2" data-aos="fade-left">
                 <div class="absolute inset-0 bg-blue-500/20 blur-[80px] rounded-full w-2/3 h-2/3 mx-auto top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></div>
                 <div class="iphone-mockup max-w-[280px] z-10">
-                    <img src="https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/76/59/b6/7659b6df-2d28-0e7e-23ce-018e85a04c7b/02.png/600x1300bb.webp" alt="Calendario Folium" class="w-full h-auto" onerror="this.src='https://placehold.co/280x600/1f1f1f/3b82f6?text=Calendario'">
+                    <img src="https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/05/35/03/0535031b-8c91-dcd6-c53f-e168a8dbba55/03.png/600x1300bb.webp" alt="Calendario Folium" class="w-full h-auto" onerror="this.src='https://placehold.co/280x600/1f1f1f/3b82f6?text=Calendario'">
                 </div>
             </div>
         </div>
@@ -354,9 +387,9 @@
             </div>
             
             <div class="glass-card p-8 border-white/5 hover:border-brand-accent/50 transition-colors" data-aos="fade-up" data-aos-delay="200">
-                <div class="text-3xl mb-4">⏱️</div>
-                <h3 class="text-xl font-bold mb-3">Timer Concentrazione</h3>
-                <p class="text-gray-400 font-light leading-relaxed">Massimizza il tuo focus. Gestisci le sessioni di studio e le pause con un timer integrato.</p>
+                <div class="text-3xl mb-4">👑</div>
+                <h3 class="text-xl font-bold mb-3">La Tua Corona</h3>
+                <p class="text-gray-400 font-light leading-relaxed">Guarda la tua corona crescere e arricchirsi ad ogni esame superato. Un'opera d'arte per i tuoi successi.</p>
             </div>
             
             <div class="glass-card p-8 border-white/5 hover:border-brand-accent/50 transition-colors" data-aos="fade-up" data-aos-delay="300">
